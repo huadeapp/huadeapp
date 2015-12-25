@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <script type="text/javascript" src="../pace/pace.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="../pace/themes/pace-theme-bounce.css">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <script type="text/javascript" src="../script/doT.js"></script>
+    <style type="text/css">
+    	.aui-label-warning {
+    		background-color: #f1c40f;
+    		color: white;
+    		float: right;
+        border-radius: 5px;
+        z-index: 10;
+        font-size: 20px;
+    	}
+    	#ISBN{
+    		display: none;
+    	}
+    </style>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+	<!-- 模板引擎 -->
+                                
+<div class="aui-content-padded aui-card">
+<ul class="aui-list-view" id="showInfo">
+<script type="text/template" charset="utf-8" id='template_1'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+
+<li class="aui-list-view-cell aui-img"  tapmode="background-color:rgba(26,188,156,0.5);" onclick="ceshi(this)" >
+ {{="到期时间："+(String)(it[i][0]).substring(0,10)}}
+<p class="aui-label-warning" onclick="xujie(this)" >续借</p>
+<hr>
+<img class="aui-img-object aui-pull-left"  id="{{="img"+i}}">
+<div class="aui-img-body">
+<p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+<p class='aui-ellipsis-2'>{{=it[i][2]}}/{{=it[i][3]}}/{{=it[i][4]}}</p>
+<p class='aui-ellipsis-2' id="ISBN" >{{=it[i][5]}}</p>
+</div>
+</li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+
+
+</script>
+        </ul>
+    </div>
+	<!-- 模板引擎 -->
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+	// var pageParam = api.pageParam.value;
+// http://192.168.43.44
+		// url: 'http://172.17.123.4:3000/search1?q='+pageParam,
+// 192.168.64.80
+// 172.17.123.4
+        api.getPrefs({
+            key:'xuehao'
+        },function(ret,err){
+            var xuehao =  ret.value;            
+            if(xuehao && xuehao != ""){
+             // alert(xuehao); 
+            // var val = JSON.stringify(v);
+            // var vv = v[name];
+            var ip = $api.getStorage('ip');
+                api.ajax({
+                url: 'http://'+ip+':3000/qixian?q='+xuehao,
+                method: 'get',
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                
+                },function(ret,err){
+                  if(ret){
+                          var template=document.getElementById('template_1').innerHTML;
+                          document.getElementById('showInfo').innerHTML=doT.template( template )( ret );
+                        function douban00(i){
+                            var isbn = ret[i][5];
+                                    api.ajax({
+                                    url: 'https://api.douban.com/v2/book/isbn/:'+isbn,
+                                    method: 'get',
+                                    cache: true,
+                                    timeout: 3,
+                                    dataType: 'json',
+                                    returnAll:false,
+                                    },function(ret,err){
+                                        if (ret) {
+                                        var dom = $api.byId("img"+i);
+                                            $api.attr(dom,"src",ret.image); 
+                                        // var src = $api.attr(dom,"id");
+                                        }else{
+                                        }
+                                    });
+                         
+                        }
+                         for(var j=0;j<ret.length;j++){
+                         douban00(j);   
+                      }
+
+                  }else{
+                    api.alert({
+                          msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                            });
+                  }
+                });
+                            
+            }else{
+            alert("未登录");                             
+            }
+        });
+  	// api.ajax({
+  	// 	url: 'http://172.17.123.4:3000/qixian',
+  	// 	method: 'get',
+  	// 	timeout: 30,
+  	// 	dataType: 'json',
+  	// 	returnAll: false,
+  		
+   //  	},function(ret,err){
+   //  		if(ret){
+   //              var template=document.getElementById('template_1').innerHTML;
+   //              document.getElementById('showInfo').innerHTML=doT.template( template )( ret );
+
+   //  		}else{
+   //  			api.alert({
+   //              msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+   //          			});
+   //  		}
+  	// });
+		// api.parseTapmode();
+  //       $api.append($api.dom('body'),'<div class="aui-loading"><div class="aui-loading-1"></div><div class="aui-loading-2"></div></div>');
+	};
+		   //  function hide(){
+     //    	$api.remove($api.dom('.aui-loading'));
+    	// 	}
+    	// function show(){
+     //    var loading = $api.dom(".aui-loading");
+     //    if(!loading){
+     //        $api.append($api.dom('body'),'<div class="aui-loading"><div class="aui-loading-1"></div><div class="aui-loading-2"></div></div>');
+     //    	}
+    	// };
+    function ceshi(obj){
+        var dom0 = $api.last(obj);
+        var dom00 = $api.last(dom0);
+        html = $api.html(dom00);
+        api.openWin({
+        name: 'searchbook_win',
+        url: 'searchbook_win.html',
+        pageParam:{value: html}
+        });
+    }
+    function xujie(obj){
+           api.toast({
+                msg:'续借功能木有上线~~~敬请期待！',
+                duration:5000
+                }); 
+          stopEventBubble(event);     
+    }
+    function stopEventBubble(event){
+        var e=event || window.event;
+
+        if (e && e.stopPropagation){
+            e.stopPropagation();    
+        }
+        else{
+            e.cancelBubble=true;
+        }
+    }    
+</script>
+
+
+</html>

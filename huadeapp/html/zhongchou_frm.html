@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style type="text/css">
+/*    .aui-card {
+        margin-top: 15px;
+    }*/
+    .aui-input-addon.aui-iconfont {
+        font-size: 20px !important;
+    }
+    .aui-input-row {
+        width: 100% !important;
+    }
+    #img{
+        padding: 5px;
+        width: 200px;
+        height: auto;
+        margin:5px auto;
+        display: table;
+    }
+    #timing{
+        margin:0 auto;
+        display: table;
+    }
+    #price{
+        color: #f1c40f;
+        margin:0 auto 5px auto;
+        display: table;
+    }
+    .aui-card{
+        margin-top: 15px;
+        width: 200px;
+        margin:5px auto;
+    }
+    .aui-form{
+        margin:220px 10px 0 10px;
+    }
+    .jine{
+        font-size: 14px;
+        padding: 5px;
+        display: block;
+    }
+    .danxuan{
+        display: inline-table;
+        width: 8%;
+    }
+    .jiajian{
+        float: right;
+        /*margin-top: -15px;*/
+        margin-right: -20px;
+    }
+    li.aui-list-view-cell.aui-img.aui-counter-list{
+        padding: 0px;
+    }
+    .boxx{
+        line-height: 4;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+    .box{
+        line-height: 1.5;
+        text-align: center;
+        margin-top: -25px;
+        /*margin-bottom: 25px;*/
+    }
+    #boxleft{
+        margin: -25px 0 0 30px;
+        border-top:2px solid #c0c0c0;
+        border-right:2px solid #c0c0c0;
+        border-bottom:2px solid #c0c0c0;
+    }
+    #boxright{
+        margin: -25px 30px 0 0;
+        border-top:2px solid #c0c0c0;
+        border-bottom:2px solid #c0c0c0;
+    }
+/*    .zhong{
+        display:block;
+        margin-top: 20px;
+        margin-bottom: 50px;
+    }
+    .xia{
+        display:block;
+        margin-top: 80px;
+    }*/
+    </style>
+</head>
+<body>
+<div class="aui-card" >
+    <img  id="img" alt="tupian" src="../image/demo1.jpg">
+</div>
+<h1 id="timing"></h1>
+<div class="zhong">
+    <div class="aui-content">
+      <div class="aui-col-xs-4 ">
+          <div class="boxx">
+               <span class="item" id="item" >23</span><br>   
+               <span class="item2">支持人数</span>    
+          </div>
+      </div>
+      <div class="aui-col-xs-4 ">
+          <div class="boxx">
+               <span class="item" id="jindu">20%</span><br>     
+               <span class="item2">项目进度</span>    
+          </div>
+      </div>
+      <div class="aui-col-xs-4 ">
+          <div class="boxx">
+                  <span class="item" id="day">33</span><br>     
+               <span class="item2">剩余天数</span>    
+          </div>
+      </div>
+    </div>
+</div>
+
+<div class="xia">
+    <div class="aui-content">
+      <div class="aui-col-xs-6 ">
+          <div class="box" id="boxleft">
+               <span class="item" id="zonge">39</span><br>   
+               <span class="item">目标金额</span>    
+          </div>
+      </div>
+      <div class="aui-col-xs-6 ">
+          <div class="box" id="boxright">
+               <span class="item" id="yichou">20</span><br>     
+               <span class="item">已筹金额</span>    
+          </div>
+      </div>
+    </div>
+</div>
+<div class="aui-form">
+        <div class="aui-input-row">
+        <span class="jine">贡献金额：</span>
+            <!-- <label class="aui-input-addon">贡献金额：</label> -->
+            <div class="aui-pull-left">
+                <input class="aui-radio" type="radio" name="radiodemo1" value="1"><div class="aui-radio-name">1元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="5"><div class="aui-radio-name">5元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="10"><div class="aui-radio-name">10元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="1">
+                    <div class="aui-radio-name">
+                    
+                        <div class="jiajian">
+                            <div class="aui-counter aui-pull-right jiajian">
+                                <!-- <div class="aui-counter-minus aui-disabled"></div> -->
+                                <input id="diy" class="aui-counter-input" type="number" value="1">
+                                <!-- <div class="aui-counter-plus"></div> -->
+                            </div>   
+                        </div>                    
+                    </div>
+            </div>
+        </div>
+    <div class="aui-btn-row">
+        <div class="aui-btn aui-btn-block aui-btn-warning" onclick="start()" tapmode="background-color:rgba(26,188,156,0.5);">我要支持</div>
+    </div>
+</div> 
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript">
+    // var isinerval,times;
+    apiready = function () {
+        var dimage = api.pageParam.image;
+        var dtiming = api.pageParam.timing;
+        var dyichou = api.pageParam.yichou;
+        var dzonge = api.pageParam.zonge;
+        var ditem = api.pageParam.item;
+        var djindu = api.pageParam.jindu;
+        var dday = api.pageParam.day;
+        var dliyou = api.pageParam.liyou;
+        var dyincang = api.pageParam.yincang;
+         disbn = api.pageParam.isbn;
+
+  var domimage = $api.byId("img");
+  $api.attr(domimage,"src",dimage);
+                    // api.toast({
+                    //     msg : dimage,
+                    //     duration:5000
+                    // });
+  var domtiming = $api.byId("timing");
+  $api.html(domtiming,dtiming);
+
+  var domyichou = $api.byId("yichou");
+  $api.html(domyichou,dyichou);
+
+  var domzonge = $api.byId("zonge");
+  $api.html(domzonge,dzonge);
+
+  var domitem = $api.byId("item");
+  $api.html(domitem,ditem);
+
+  var domjindu = $api.byId("jindu");
+  $api.html(domjindu,djindu);
+
+  var domday = $api.byId("day");
+  $api.html(domday,dday);
+
+    function arc(img,id1,value1,radius1,width1,bg1,pg1){
+        var domimg = $api.byId(img);
+        var offset = $api.offset(domimg);
+        var left = offset.l; //left
+        var top = offset.t;  //top
+        var width = offset.w;//width
+        var height = offset.h;//height
+        var obj1 = api.require('arcProgress');
+        // var obj2 = api.require('arcProgress');
+            obj1.open({
+                type: 'annular',
+                centerX: left+10,
+                centerY: top+5,
+                radius: radius1,
+                // bgColor: '#1abc9c',
+                bgColor: bg1,
+                pgColor: pg1,
+                loopWidth: width1,
+                fixedOn:'zhongchou_frm',
+                fixed:false
+            },function(ret,err){
+
+            });
+            obj1.setValue({
+                id:id1,
+                value:value1
+            });   
+    }
+    arc('item',1,100,30,2,'#c0c0c0','#adff2f'); 
+    arc('jindu',2,dyincang,50,4,'#c0c0c0','#00FFFF'); 
+    arc('day',3,100,30,2,'#c0c0c0','#adff2f'); 
+    };
+    function arc(img,id1,value1){
+        var domimg = $api.byId(img);
+        var offset = $api.offset(domimg);
+        var left = offset.l; //left
+        var top = offset.t;  //top
+        var width = offset.w;//width
+        var height = offset.h;//height
+        var obj1 = api.require('arcProgress');
+        // var obj2 = api.require('arcProgress');
+            obj1.open({
+                type: 'annular',
+                centerX: 150,
+                centerY: offset.t+30,
+                radius: 35,
+                // bgColor: '#1abc9c',
+                bgColor: '#c0c0c0',
+                pgColor: '#f1c40f',
+                loopWidth: 7,
+                fixedOn:'frame3',
+                fixed:false
+            },function(ret,err){
+
+            });
+            obj1.setValue({
+                id:id1,
+                value:value1
+            });   
+    }  
+
+function start(){
+var xuehao = $api.getStorage('xuehao'); 
+if(xuehao!=null){   
+        function getNowFormatDate(date) {
+            // var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
+            return currentdate;
+        }
+        function getEndDate(day){
+            var newdate = new Date();
+            var newtimems = newdate.getTime();
+            var endtimems = newtimems +(day*24*60*60*1000);
+            var enddate = new Date(endtimems);
+            return getNowFormatDate(enddate);
+        }
+        function getRadio(){
+            var domRadio = document.getElementsByName("radiodemo1");
+            var str;
+            for(var i=0;i<domRadio.length-1;i++){
+                if(domRadio[i].checked){
+                    str = domRadio[i].value;
+                    break;
+                }
+            }
+                if(domRadio[domRadio.length-1].checked){
+                    str = document.getElementById("diy").value;                     
+                }
+            return str;
+        }
+        var strjine = getRadio();
+        var jine = parseFloat(strjine);
+        if(jine<=0 || jine==null){
+                    api.toast({
+                        msg : '贡献金额不能小于0'
+                    });
+                } else {
+                    var newdate = new Date();
+                    var regTime = getNowFormatDate(newdate);
+                    var ip = $api.getStorage('ip');
+                                api.ajax({
+                                    //172.17.123.4
+                                    //192.168.64.80
+                                    url: 'http://'+ip+':3000/jiachou?q='+xuehao+"|"+disbn+"|"+jine+"|"+regTime,
+                                    method: 'get',
+                                    timeout: 5,
+                                    dataType: 'json',
+                                    returnAll: false
+                                },function(ret,err){
+                                    var obj = JSON.stringify(ret);
+                                    if(obj=='["one"]'){
+                                        api.toast({msg:('贡献金额失败！')});
+                                    }
+                                    if(obj=='["two"]'){
+                                        api.alert({msg:('众筹成功！')}); 
+                                        api.openWin({
+                                        name: 'frame3',
+                                        url: 'html/footer_tab_3.html'
+                                        });
+                                        api.closeWin();
+                                    }                                   
+                                }); 
+                        }
+    }else{
+        api.alert({msg:('没有登录！')});         
+    }    
+}  
+</script>
+</html>

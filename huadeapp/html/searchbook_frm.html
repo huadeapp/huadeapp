@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <script type="text/javascript" src="../script/doT.js"></script>
+    <script type="text/javascript">
+    // function hide(){
+    //     	// $api.remove($api.dom('.aui-loading'));
+    //     	var objLoding = document.getElementsByClassName('aui-loading');
+    //     	// objLoding.style.display = 'none';
+    //     	document.body.removeChild(objLoding);
+    // 		}
+    // window.onload =hide();
+    </script>
+</head>
+<body>
+	<!-- 模板引擎 -->
+                                
+<div class="aui-content-padded aui-card">
+<ul class="aui-list-view" id="showInfo">
+<script type="text/template" charset="utf-8" id='template_1'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+
+<li class="aui-list-view-cell aui-img">
+<img class="aui-img-object aui-pull-left" src="../image/duzhe2.jpg">
+<div class="aui-img-body">
+{{=it[i][0]}}
+<p class='aui-ellipsis-2'>外借次数：{{=it[i][1]}}</p>
+<p class='aui-ellipsis-2'>{{=it[i][2]}}/{{=it[i][3]}}/{{=it[i][4]}}</p>
+</div>
+</li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+
+
+</script>
+        </ul>
+    </div>
+	<!-- 模板引擎 -->
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+	var pageParam = api.pageParam.value;
+// http://192.168.43.44
+		// url: 'http://172.17.123.4:3000/search1?q='+pageParam,
+
+	api.ajax({
+		url: 'http://172.17.123.4:3000/search1?q='+pageParam,
+		method: 'get',
+		timeout: 30,
+		dataType: 'json',
+		returnAll: false,
+		
+	},function(ret,err){
+		if(ret){
+            var template=document.getElementById('template_1').innerHTML;
+            document.getElementById('showInfo').innerHTML=doT.template( template )( ret );
+		}else{
+			api.alert({
+            msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+        			});
+		}
+	});
+		// api.parseTapmode();
+  //       $api.append($api.dom('body'),'<div class="aui-loading"><div class="aui-loading-1"></div><div class="aui-loading-2"></div></div>');
+	};
+		   //  function hide(){
+     //    	$api.remove($api.dom('.aui-loading'));
+    	// 	}
+    	// function show(){
+     //    var loading = $api.dom(".aui-loading");
+     //    if(!loading){
+     //        $api.append($api.dom('body'),'<div class="aui-loading"><div class="aui-loading-1"></div><div class="aui-loading-2"></div></div>');
+     //    	}
+    	// };
+
+</script>
+
+
+</html>
