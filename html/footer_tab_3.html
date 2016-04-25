@@ -1,0 +1,356 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <script type="text/javascript" src="../script/doT.js"></script>
+    <style type="text/css">
+    .hidden{display: none;}
+    .aui-card{
+        margin: 5px;
+        padding: 5px;
+    }
+    #jindu{
+        margin: 30px 10px 1px 10px;
+    }
+    .chouji{
+        font-weight: bold;
+        font-size: 18px;
+        padding:0px 10px 0px 0px;
+    }
+    .yichou{
+        font-size: 20px;
+        padding-right: 5px;
+    }
+    .zonge{
+        font-size: 20px;
+        padding-left: 3px;
+        padding-right: 5px;
+    }
+    .body-left{
+        
+    }
+    .img{
+      padding:5px 60px 0px 60px;
+    }
+/*    .box{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }*/
+/*    .box{
+      display: -webkit-flex-box;
+      flex-direction: column;
+      box-pack: space-between;
+      box-align: center;
+    }*/
+    .box{
+      text-align: center;
+    }
+    .timing{
+      display: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="aui-content">
+        <div class="aui-tab">
+            <ul class="aui-tab-nav" id="demo1">
+                <!-- <li class="active">正在众筹</li> -->
+                <!-- <li>众筹历史</li> -->
+            <li id="one" class="active" onclick="getValue1()" tapmode="background-color:rgba(26,188,156,0.5);">正在众筹</li>
+            <li id="two" onclick="getValue2()" tapmode="background-color:rgba(26,188,156,0.5);">众筹历史</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 正在众筹模板引擎 -->
+    <div class="aui-card" id="div1">
+        <ul class="aui-waterfall" id="aui-waterfall_1">
+<script type="text/template" charset="utf-8" id='template_1'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+            <li onclick="index({{=i}})"> 
+                <div class="aui-waterfall-header">
+                    <img class="img" id="{{="img"+i}}" src="{{=it[i][0]}}"/>
+                    <a class="timing" id="{{="timing"+i}}">{{=it[i][1]}}</a>
+                    <a class="timing" id="{{="isbn"+i}}">{{=it[i][7]}}</a>
+                </div>
+                <div class="aui-waterfall-body">
+                    <div class="shang">
+                                   {{ var i3 = it[i][3].toFixed(2); }}    
+                        <span class="body-left" ><i class="chouji">筹集金额</i><i class="yichou" id="{{="yichou"+i}}">{{=it[i][2]}}</i>￥/<i class="zonge" id="{{="zonge"+i}}">{{=i3}}</i>￥</span>
+                    </div>
+                    <hr style=" height:2px;border:none;border-top:1px dotted #185598;" />
+                    <div class="zhong">
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">支持人数</span><br>   
+                                   <span class="item" id="{{="item"+i}}">{{=it[i][6]}}</span>    
+                              </div>
+                          </div>
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">项目进度</span><br>  
+                                   {{ var yichou = parseFloat(it[i][2]);   }}   
+                                   {{ var zonge = parseFloat(it[i][3]);    }}   
+                                   {{ var jindu0 = yichou/zonge; }}   
+                                   {{ var jindu = jindu0.toFixed(2); }}    
+                                   <span class="item" id="{{="jindu"+i}}">{{=jindu*100}}%</span>    
+                                   <span class="timing" id="{{="yincang"+i}}">{{=jindu*100}}</span>    
+                              </div>
+                          </div>
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">剩余天数</span><br>
+                              {{ var reg0 = new Date(); }}
+                              {{ var reg = reg0.getTime(); }}   
+                              {{ var end = Date.parse(it[i][4]); }}         
+                              {{ var daytimems = end - reg; }}     
+                              {{ var day0 = daytimems/(1000*60*60*24); }}     
+                              {{ var day = day0.toFixed(0); }}     
+                                   <span class="item" id="{{="day"+i}}">{{=day}}</span>    
+                              </div>
+                          </div>
+                    </div>                                         
+                </div>
+                    <div class="aui-progress aui-progress-xs" id="jindu">
+                        <div class="aui-progress-bar" style="width: {{=jindu*100}}%;"></div>
+                    </div>
+                <div class="aui-waterfall-footer"> 
+                    <span class="aui-text" id="{{="liyou"+i}}">
+                        {{=it[i][5]}}
+                    </span>
+                </div> 
+            </li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+
+</script>
+        </ul>                
+    </div>
+    <!-- 正在众筹模板引擎 -->
+    <!-- 众筹历史模板引擎 -->
+    <div class="aui-card" id="div2">
+        <ul class="aui-waterfall" id="aui-waterfall_2">
+<script type="text/template" charset="utf-8" id='template_2'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+
+            <li onclick="index2()"> 
+                <div class="aui-waterfall-header">
+                    <img class="img" id="{{="img"+i}}" src="{{=it[i][0]}}"/>
+                    <a class="timing" id="{{="timing"+i}}">{{=it[i][1]}}</a>
+                    <a class="timing" id="{{="isbn"+i}}">{{=it[i][7]}}</a>
+                </div>
+                <div class="aui-waterfall-body">
+                    <div class="shang">
+                                   {{ var i3 = it[i][3].toFixed(2); }}    
+                        <span class="body-left" ><i class="chouji">筹集金额</i><i class="yichou" id="{{="yichou"+i}}">{{=it[i][2]}}</i>￥/<i class="zonge" id="{{="zonge"+i}}">{{=i3}}</i>￥</span>
+                    </div>
+                    <hr style=" height:2px;border:none;border-top:1px dotted #185598;" />
+                    <div class="zhong">
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">支持人数</span><br>   
+                                   <span class="item" id="{{="item"+i}}">{{=it[i][6]}}</span>    
+                              </div>
+                          </div>
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">项目进度</span><br>  
+                                   {{ var yichou = parseFloat(it[i][2]);   }}   
+                                   {{ var zonge = parseFloat(it[i][3]);    }}   
+                                   {{ var jindu0 = yichou/zonge; }}   
+                                   {{ var jindu = jindu0.toFixed(2); }}    
+                                   <span class="item" id="{{="jindu"+i}}">{{=jindu*100}}%</span>    
+                                   <span class="timing" id="{{="yincang"+i}}">{{=jindu*100}}</span>    
+                              </div>
+                          </div>
+                          <div class="aui-col-xs-4 jindu0">
+                              <div class="box">
+                                   <span class="item">剩余天数</span><br>
+                              {{ var reg0 = new Date(); }}
+                              {{ var reg = reg0.getTime(); }}   
+                              {{ var end = Date.parse(it[i][4]); }}         
+                              {{ var daytimems = end - reg; }}     
+                              {{ var day0 = daytimems/(1000*60*60*24); }}     
+                              {{ var day = day0.toFixed(0); }}     
+                                   <span class="item" id="{{="day"+i}}">{{=day}}</span>    
+                              </div>
+                          </div>
+                    </div>                                         
+                </div>
+                    <div class="aui-progress aui-progress-xs" id="jindu">
+                        <div class="aui-progress-bar" style="width: {{=jindu*100}}%;"></div>
+                    </div>
+                <div class="aui-waterfall-footer"> 
+                    <span class="aui-text" id="{{="liyou"+i}}">
+                        {{=it[i][5]}}
+                    </span>
+                </div> 
+            </li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+
+</script>
+        </ul>                
+    </div>
+    <!-- 众筹历史模板引擎 -->
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript">
+apiready = function(){
+  // api.refreshHeaderLoading();
+ ip = $api.getStorage('ip');
+  getValue1();
+};
+
+ function getValue1(){
+    var one=$api.byId('one');
+    var two=$api.byId('two');
+    var div1=$api.byId('div1');
+    var div2=$api.byId('div2');
+    $api.addCls(one, 'active');
+    $api.removeCls(two, 'active');
+    $api.removeCls(div1, 'hidden');
+    $api.addCls(div2, 'hidden');
+
+  api.ajax({
+    url: 'http://'+ip+':3000/listchou',
+    method: 'get',
+    cache: false,
+    timeout: 5,
+    dataType: 'json',
+    returnAll: false
+  },function(ret,err){
+    if(ret){
+      try{
+            var template=document.getElementById('template_1').innerHTML;
+            document.getElementById('aui-waterfall_1').innerHTML=doT.template( template )( ret );
+          }catch(e){
+        }
+    }else{
+                api.toast({
+                msg:'噢ooo！抱歉，服务器开小差去了~~~',
+                duration:5000
+                });      
+    }
+  });
+    api.parseTapmode();
+}
+
+ function getValue2(){
+    var one=$api.byId('one');
+    var two=$api.byId('two');
+    var div1=$api.byId('div1');
+    var div2=$api.byId('div2');
+    $api.addCls(two, 'active');
+    $api.removeCls(one, 'active');
+    $api.removeCls(div2, 'hidden');
+    $api.addCls(div1, 'hidden');
+    
+  api.ajax({
+    url: 'http://'+ip+':3000/listchou2',
+    method: 'get',
+    cache: false,
+    timeout: 5,
+    dataType: 'json',
+    returnAll: false
+  },function(ret,err){
+    if(ret){
+      try{
+            var template=document.getElementById('template_2').innerHTML;
+            document.getElementById('aui-waterfall_2').innerHTML=doT.template( template )( ret );
+          }catch(e){
+        }
+    }else{
+                api.toast({
+                msg:'噢ooo！抱歉，服务器开小差去了~~~',
+                duration:5000
+                });      
+    }
+  });
+    api.parseTapmode();
+}
+
+function index(i){
+  var domimage = $api.byId("img"+i);
+  var dimage = $api.attr(domimage,'src');
+  // var dimage = $api.html(domimage);
+
+  var domtiming = $api.byId("timing"+i);
+  var dtiming = $api.html(domtiming);
+
+  var domyichou = $api.byId("yichou"+i);
+  var dyichou = $api.html(domyichou);
+
+  var domzonge = $api.byId("zonge"+i);
+  var dzonge = $api.html(domzonge);
+
+  var domitem = $api.byId("item"+i);
+  var ditem = $api.html(domitem);
+
+  var domjindu = $api.byId("jindu"+i);
+  var djindu = $api.html(domjindu);
+
+  var domday = $api.byId("day"+i);
+  var dday = $api.html(domday);
+
+  var domliyou = $api.byId("liyou"+i);
+  var dliyou = $api.html(domliyou);
+
+  var domyincang = $api.byId("yincang"+i);
+  var dyincang = $api.html(domyincang);
+
+  var domisbn = $api.byId("isbn"+i);
+  var disbn = $api.html(domisbn);
+                    // api.toast({
+                    //     msg : dyichou,
+                    //     duration:5000
+                    // });
+      api.openWin({
+        name: 'zhongchou_win',
+        url: 'zhongchou_win.html',
+        pageParam:{
+                    image:dimage,
+                    timing:dtiming,
+                    yichou:dyichou,
+                    zonge:dzonge,
+                    item:ditem,
+                    jindu:djindu,
+                    day:dday,
+                    liyou:dliyou,
+                    yincang:dyincang,
+                    isbn:disbn
+                    }
+        });
+}
+function index2(){
+                          api.toast({
+                msg:'时间到期，不能再众筹鸟~~~',
+                duration:3000
+                });
+}
+</script>
+</html>

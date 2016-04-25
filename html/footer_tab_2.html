@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <script type="text/javascript" src="../script/api.js" ></script>
+    <script type="text/javascript" src="../script/doT.js"></script>
+    
+</head>
+<style>
+.aui-content { margin-top: 15px;}  
+.hidden{display: none;}  
+/*.Grid {
+  display: -webkit-flex-box;
+}
+
+.Grid-cell {
+  flex: 1;
+-webkit-flex-box:1;
+  box-pack:center;
+  box-align:center;
+}*/
+.cishu{
+margin-left: 20%;
+display: inline-block;
+
+}
+.paihang{
+    margin-right: 3%;
+    float: right;
+    display: inline-block;
+
+}
+.color{
+    color: #f1c40f;
+}
+.tupian{
+    margin-right: 3%;
+    float: right;
+    display: inline-block;   
+    height: 40px;
+    width: 40px;
+    /*position: absolute;*/
+    z-index: 10;
+
+}
+#isbn{
+    display: none;
+}
+</style>
+<body>
+
+<div class="aui-tab">
+    <ul class="aui-tab-nav" id="demo1">
+        <li id="one" class="active" onclick="getValue(1)" tapmode="background-color:rgba(26,188,156,0.5);">读者学霸榜</li>
+        <li id="two" onclick="getValue(2)" tapmode="background-color:rgba(26,188,156,0.5);">图书借阅榜</li>
+    </ul>
+</div>
+<br>
+<div class="aui-content-padded">
+    <div class="aui-tab">
+        <ul class="aui-tab-nav aui-tab-border" id="demo2">
+            <li id="three" class="active" onclick="getValue(3)" tapmode="background-color:rgba(26,188,156,0.5);">月榜</li>
+            <li id="four" onclick="getValue(4)" tapmode="background-color:rgba(26,188,156,0.5);">总榜</li>
+        </ul>
+    </div>
+</div>
+    <!-- 模板引擎1 -->
+<div class="aui-content-padded aui-card" id="div1">
+    <ul class="aui-list-view" id="showInfo_1">
+    <script type="text/template" charset="utf-8" id='template_1'>
+        <div>
+        <h1 class="cishu">进馆次数</h1>
+        <h1 class="paihang">排行榜</h1>        
+        </div>
+    {{if( it && it.length>0 ){ }}
+
+    {{for(var i=0; i<it.length; i++){ }}
+
+
+    <li class="aui-list-view-cell aui-img" id="li">
+    <img class="aui-img-object aui-pull-left" src="../image/duzhe2.jpg">
+    <div class="aui-img-body">
+                {{=it[i][0]}}
+            {{if(i==0)}}
+                <img class="tupian" src="../image/1.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{if(i==1)}}
+                <img class="tupian" src="../image/2.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{if(i==2)}}
+                <img class="tupian" src="../image/3.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{  if(i>2) }}
+                <i class="paihang color">{{=i+1}}</i>
+    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+    </div>
+    </li>
+    {{ } }}
+    {{ }else{ }}
+    <li>没搜索到书</li>
+    {{ } }}
+    </script>
+    </ul>
+</div>
+    <!-- 模板引擎1 -->
+    <!-- 模板引擎2 -->
+<div class="aui-content-padded aui-card" id="div2">
+    <ul class="aui-list-view" id="showInfo_2">
+    <script type="text/template" charset="utf-8" id='template_2'>
+        <div>
+        <h1 class="cishu">进馆次数</h1>
+        <h1 class="paihang">排行榜</h1>        
+        </div>
+    {{if( it && it.length>0 ){ }}
+
+    {{for(var i=0; i<it.length; i++){ }}
+
+    <li class="aui-list-view-cell aui-img" id="li">
+    <img class="aui-img-object aui-pull-left" src="../image/duzhe2.jpg">
+    <div class="aui-img-body">
+    {{=it[i][0]}}
+            {{if(i==0)}}
+                <img class="tupian" src="../image/1.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{if(i==1)}}
+                <img class="tupian" src="../image/2.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{if(i==2)}}
+                <img class="tupian" src="../image/3.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+            {{  if(i>2) }}
+                <i class="paihang color">{{=i+1}}</i>
+    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][3]}}</p>
+    </div>
+    </li>
+    {{ } }}
+    {{ }else{ }}
+    <li>没搜索到书</li>
+    {{ } }}
+    </script>
+    </ul>
+</div>
+    <!-- 模板引擎2 -->
+    <!-- 模板引擎3 -->
+<div class="aui-content-padded aui-card" id="div3">
+    <ul class="aui-list-view" id="showInfo_3">
+    <script type="text/template" charset="utf-8" id='template_3'>
+        <div>
+        <h1 class="cishu">借阅次数</h1>
+        <h1 class="paihang">排行榜</h1>        
+        </div>
+    {{if( it && it.length>0 ){ }}
+
+    {{for(var i=0; i<it.length; i++){ }}
+
+    <li class="aui-list-view-cell aui-img" id="li"  tapmode="background-color:rgba(26,188,156,0.5);" onclick="ceshi(this)" >
+    <img class="aui-img-object aui-pull-left" id="{{="img"+i}}">
+    <div class="aui-img-body">
+    {{=it[i][0]}}
+            {{if(i==0)}}
+                <img class="tupian" src="../image/1.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{if(i==1)}}
+                <img class="tupian" src="../image/2.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{if(i==2)}}
+                <img class="tupian" src="../image/3.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{  if(i>2) }}
+                <i class="paihang color">{{=i+1}}</i>
+    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+    <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+    </div>
+    </li>
+    {{ } }}
+    {{ }else{ }}
+    <li>没搜索到书</li>
+    {{ } }}
+    </script>
+    </ul>
+</div>
+    <!-- 模板引擎3 -->
+    <!-- 模板引擎4 -->
+<div class="aui-content-padded aui-card" id="div4">
+    <ul class="aui-list-view" id="showInfo_4">
+    <script type="text/template" charset="utf-8" id='template_4'>
+        <div>
+        <h1 class="cishu">借阅次数</h1>
+        <h1 class="paihang">排行榜</h1>        
+        </div>
+    {{if( it && it.length>0 ){ }}
+
+    {{for(var i=0; i<it.length; i++){ }}
+
+    <li class="aui-list-view-cell aui-img" id="li" tapmode="background-color:rgba(26,188,156,0.5);" onclick="ceshi(this)" >
+    <img class="aui-img-object aui-pull-left"  id="{{="img2"+i}}">
+    <div class="aui-img-body">
+    {{=it[i][0]}}
+            {{if(i==0)}}
+                <img class="tupian" src="../image/1.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{if(i==1)}}
+                <img class="tupian" src="../image/2.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{if(i==2)}}
+                <img class="tupian" src="../image/3.jpg">
+                    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+                    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+            <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+            {{  if(i>2) }}
+                <i class="paihang color">{{=i+1}}</i>
+    <p class='aui-ellipsis-2'>{{=it[i][1]}}</p>
+    <p class='aui-ellipsis-2'>{{=it[i][2]}}</p>
+    <p class='aui-ellipsis-2' id="isbn">{{=it[i][3]}}</p>
+    </div>
+    </li>
+    {{ } }}
+    {{ }else{ }}
+    <li>没搜索到书</li>
+    {{ } }}
+    </script>
+    </ul>
+</div>
+    <!-- 模板引擎4 -->    
+</body>
+<script type="text/javascript">    
+    function getValue(param){
+    var one=$api.byId('one');
+     var two=$api.byId('two');
+     var three=$api.byId('three');
+     var four=$api.byId('four');
+     var paramAjax;
+    switch(param){
+            case 1:
+            $api.addCls(one, 'active');
+            $api.removeCls(two, 'active');
+            if($api.hasCls(three, 'active')){
+            $api.removeCls(div1, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div4, 'hidden');                
+                // paramAjax='one';
+   
+                getAjax('one','template_1','showInfo_1');
+            }else{
+            $api.removeCls(div2, 'hidden');
+            $api.addCls(div1, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div4, 'hidden');
+                // paramAjax='two';
+                getAjax('two','template_2','showInfo_2');
+            }
+            break;
+            case 2:
+            $api.addCls(two, 'active');
+            $api.removeCls(one, 'active');
+            if($api.hasCls(three, 'active')){
+            $api.removeCls(div3, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div1, 'hidden');
+            $api.addCls(div4, 'hidden');
+                // paramAjax='three';
+                getAjax('three','template_3','showInfo_3');
+            }else{
+            $api.removeCls(div4, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div1, 'hidden');
+                // paramAjax='four';
+                getAjax('four','template_4','showInfo_4');
+            }
+            break;
+            case 3:
+            $api.addCls(three, 'active');
+            $api.removeCls(four, 'active');
+            if($api.hasCls(one, 'active')){
+            $api.removeCls(div1, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div4, 'hidden');
+                // paramAjax='one';
+                getAjax('one','template_1','showInfo_1');
+            }else{
+            $api.removeCls(div3, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div1, 'hidden');
+            $api.addCls(div4, 'hidden');
+                // paramAjax='three';
+                getAjax('three','template_3','showInfo_3');
+            }
+            break;
+            case 4:
+            $api.addCls(four, 'active');
+            $api.removeCls(three, 'active');
+            if($api.hasCls(one, 'active')){
+            $api.removeCls(div2, 'hidden');
+            $api.addCls(div1, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div4, 'hidden');
+                // paramAjax='two';
+                getAjax('two','template_2','showInfo_2');
+            }else{
+            $api.removeCls(div4, 'hidden');
+            $api.addCls(div2, 'hidden');
+            $api.addCls(div3, 'hidden');
+            $api.addCls(div1, 'hidden');
+                // paramAjax='four';
+                getAjax('four','template_4','showInfo_4');
+            }
+            break;
+        default:
+            break;
+    }
+
+}
+   //192.168.64.80 
+   //172.17.123.4
+function getAjax(paramAjax,template_,showInfo_){
+    var ip = $api.getStorage('ip'); 
+    api.ajax({
+    url: 'http://'+ip+':3000/xueba?q='+paramAjax,
+    method: 'get',
+    timeout: 10,
+    dataType: 'json',
+    returnAll:false,
+
+},function(ret,err){
+    if (ret) {           
+        try{
+        var template=document.getElementById(template_).innerHTML;
+        document.getElementById(showInfo_).innerHTML=doT.template( template )( ret );  
+                            function douban00(i){
+                            var isbn = ret[i][3];
+                                    api.ajax({
+                                    url: 'https://api.douban.com/v2/book/isbn/:'+isbn,
+                                    method: 'get',
+                                    cache: true,
+                                    timeout: 10,
+                                    dataType: 'json',
+                                    returnAll:false,
+                                    },function(ret,err){
+                                        if (ret) {
+                                            if(paramAjax=="three"){
+                                            var dom = $api.byId("img"+i);
+                                            $api.attr(dom,"src",ret.image);         
+                                            }
+                                            if(paramAjax=="four"){
+                                            var dom = $api.byId("img2"+i);
+                                            $api.attr(dom,"src",ret.image);   
+                                            }                                        
+                                        // var src = $api.attr(dom,"id");
+                                        }else{
+                                        }
+                                    });
+                        
+                        }
+                        for(var j=0;j<ret.length;j++){
+                         douban00(j);   
+                            }
+        }catch(e){
+            // console.log(e);
+        }
+
+        // var urlJson = JSON.stringify(ret);
+        // api.alert({msg: urlJson});
+    }else {
+            api.toast({
+                msg:'噢！抱歉，服务器开小差去了~~~',
+                duration:5000
+                });
+            }
+        });
+        }
+
+    apiready = function(){
+            (function getAjax(paramAjax,template_,showInfo_){
+        var ip = $api.getStorage('ip'); 
+        api.ajax({
+        url: 'http://'+ip+':3000/xueba?q='+paramAjax,
+            method: 'get',
+            timeout: 30,
+            dataType: 'json',
+            returnAll:false,
+
+        },function(ret,err){
+            if (ret) {           
+                try{
+                var template=document.getElementById(template_).innerHTML;
+                document.getElementById(showInfo_).innerHTML=doT.template( template )( ret );
+         
+                }catch(e){
+                }
+            }else {
+                api.toast({
+                    msg:'噢！抱歉，服务器开小差去了~~~',
+                    duration:5000
+                });
+            }
+        });
+        })('one','template_1','showInfo_1')
+    }
+    function ceshi(obj){
+        var dom0 = $api.last(obj);
+        var dom00 = $api.last(dom0);
+        html = $api.html(dom00);
+        api.openWin({
+        name: 'searchbook_win',
+        url: 'searchbook_win.html',
+        pageParam:{value: html}
+        });
+    }
+</script>
+</html>

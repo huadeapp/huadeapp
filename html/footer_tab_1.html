@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/lunbotu3d.css">
+    <style type="text/css">
+    .hid{display: none;} 
+    .form-search{
+    	padding-top: 10px;
+        z-index: 99;
+    }
+
+	.aui-label-warning{
+	background-color: #f1c40f;
+	/*border-radius:5px;*/
+	margin-left: 10px;
+	}
+    .search1{
+
+    }
+    .search2{
+    line-height: 42px;
+    position: absolute;
+    top:10px;
+    right: 11px;
+    z-index: 100;
+    background-color:#f1c40f;
+    }
+    .aui-grid-view{
+        height: 160px;
+    }
+    </style>
+    <script type="text/javascript">
+    //     function search1(){
+    //                         api.openWin({
+    //                         name: 'search_win',
+    //                         url: 'search_win.html'
+    //                         });
+    //     }    
+    </script>
+</head>
+<body>
+
+<div class="aui-content-padded form-search">
+    <form name="input">
+       <input class="search1" id="search1" type="text" name="search" placeholder="请输入书名">
+       <input tapmode="background-color:rgba(241,196,15,0.5);" class="search2" type="button" value="搜 索" onclick="search11()" /> 
+    </form>
+</div>
+
+
+
+	<div><span class="aui-label-warning">新书上架</span></div>
+	
+
+<!-- <ul class="aui-list-view aui-grid-view">
+    <li class="aui-list-view-cell aui-img aui-col-xs-4">
+        <img class="aui-img-object" src="../image/demo3.jpg">
+    </li>
+    <li class="aui-list-view-cell aui-img aui-col-xs-4">
+        <img class="aui-img-object" src="../image/demo2.jpg">
+    </li>
+    <li class="aui-list-view-cell aui-img aui-col-xs-4">
+        <img class="aui-img-object" src="../image/demo5.jpg">
+    </li>
+</ul> -->
+<!-- 3dxuanzhuan -->
+<ul class="aui-list-view aui-grid-view" >
+        <div class="poster-main A_Demo">
+            <div class="poster-btn poster-prev-btn"></div>
+            <ul class="poster-list">
+                <!-- <li id="demo1" class="poster-item"><a href="#"><img src="../image/demo1.jpg" width="100%" ></a></li> -->
+                <li  class="poster-item"><a href="#"><img id="demo1" width="100%" ><a id="isbn1" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo2" width="100%" ><a id="isbn2" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo3" width="100%" ><a id="isbn3" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo4" width="100%" ><a id="isbn4" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo5" width="100%" ><a id="isbn5" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo6" width="100%" ><a id="isbn6" class="hid" onclick="ceshi(this)"></a></img></a></li>
+                <li  class="poster-item"><a href="#"><img id="demo7" width="100%" ><a id="isbn7" class="hid" onclick="ceshi(this)"></a></img></a></li>
+            </ul>
+            <div class="poster-btn poster-next-btn"></div>
+        </div>
+</ul>
+<!-- 3dxuanzhuan -->
+	<div><span class="aui-label-warning">图书新闻</span></div>
+
+<div class="aui-content-padded">
+	<ul>
+		<li class="aui-list-view">
+                <!-- <div class="aui-col-xs-12 aui-padded-5" id="title">一批好书正向图书馆赶来</div> -->
+                <div class="aui-col-xs-12 aui-padded-5" id="title"></div>
+                <div class="aui-col-xs-12 image">
+                    <img id="picture"  style="width:100%;">
+                </div>
+                <!-- <div id="word" class="aui-col-xs-12 aui-ellipsis-2 aui-padded-5 content">
+                    今年9月30日，图书馆流通部韩老师远去杭州大书市，购进了一批由同学们推荐出的好书，昨天我们得知这批书已经运到哈尔滨江南啦。
+                </div> -->
+                <div id="word" class="aui-col-xs-12 aui-ellipsis-2 aui-padded-5 content">
+                    
+                </div>
+                <p class="aui-padded-5">
+                    <!-- <span id="time" class="aui-pull-left">郑国庆  2015/10/18 22:00</span> -->
+                    <span id="time" class="aui-pull-left"></span>
+                </p>
+            </li>
+	</ul>
+</div>
+
+</body>
+<script type="text/javascript">
+
+
+	
+</script>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/PicCarousel.js"></script>
+<script type="text/javascript">
+apiready = function(){
+    var model = api.require('model');
+    model.config({
+        // appId：'A6990997740260',
+        appKey: '91F2D4DC-9D5D-448C-1F11-DD1B2BDAF063',
+        host: 'https://d.apicloud.com'
+     });
+    model.findById({
+    class: 'library_news',
+    id: '56c40e45af467c0f32bcd609'
+    },function(ret, err){
+        if(ret){
+            var title = $api.dom('#title');
+            $api.html(title,ret.title);
+            var word = $api.dom('#word');
+            $api.html(word,ret.word);
+            var time = $api.dom('#time');
+            $api.html(time,ret.time);
+            var picture = $api.dom('#picture');
+            $api.attr(picture,'src',ret.picurl);
+        }
+});
+
+
+    model.findById({
+    class: 'newbook',
+    id: '56c40d5a1d29ba983b1032ef'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo1');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn1');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40d5209c1a38125b6237e'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo2');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn2');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40d472789fb6d57768308'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo3');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn3');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40d3eaf467c0f32bcd600'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo4');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn4');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40d36e795f63e69d57cf2'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo5');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn5');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40d2daf467c0f32bcd5fe'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo6');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn6');
+            $api.html(title,ret.isbn);
+        }
+});
+    model.findById({
+    class: 'newbook',
+    id: '56c40cf61d29ba983b1032ec'
+    },function(ret, err){
+        if(ret){
+            var picture = $api.dom('#demo7');
+            $api.attr(picture,'src',ret.picurl);
+            var title = $api.dom('#isbn7');
+            $api.html(title,ret.isbn);
+        }
+});
+
+};
+// apiready = function(){
+//     var value1 = $api.byId('search1').value;
+//     console.log(value1.toString());
+//     var value=value1.toString();
+//         api.sendEvent({
+//         name: 'myEventSearch',
+//         extra: value
+//         });     
+// };
+// apiready=function(){
+    function search11(){
+    var value1 = $api.byId('search1').value;
+    // alert(value);
+    // var value=value1.toString();    
+    //     api.sendEvent({
+    //     name: 'myEventSearch',
+    //     extra: value
+    //     }); 
+
+        api.openWin({
+        name: 'search_win',
+        url: 'search_win.html',
+        pageParam:{value: value1}
+        });
+    }     
+// };    
+// 3dxuanzhuan
+    // $(".A_Demo").PicCarousel("init");
+
+    $(".A_Demo").PicCarousel({
+        "width":300,        
+        "height":150,        
+        "posterWidth":100,   
+        "posterHeight":150, 
+        "scale":0.9,        
+        "speed":500,       
+        "autoPlay":false,    
+        "delay":2000,       //
+        "verticalAlign":"top"   
+    });
+
+// 3dxuanzhuan
+    function ceshi(obj){
+        // var dom0 = $api.last(obj);
+        // var dom00 = $api.last(dom0);
+        var html = $api.html(obj);
+        api.openWin({
+        name: 'searchbook_win',
+        url: 'searchbook_win.html',
+        pageParam:{value: html}
+        });
+    }      
+</script>
+</html>

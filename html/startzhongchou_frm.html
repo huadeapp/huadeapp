@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style type="text/css">
+/*    .aui-card {
+        margin-top: 15px;
+    }*/
+    .aui-input-addon.aui-iconfont {
+        font-size: 20px !important;
+    }
+    .aui-input-row {
+        width: 100% !important;
+    }
+    #img{
+        padding: 5px;
+        width: 200px;
+        height: auto;
+        margin:5px auto;
+        display: table;
+    }
+    #title{
+        margin:0 auto;
+        display: table;
+    }
+    #isbn{
+        margin:0 auto;
+        display: table;
+    }
+    #price{
+        color: #f1c40f;
+        margin:0 auto 5px auto;
+        display: table;
+    }
+    .aui-card{
+        margin-top: 15px;
+        width: 200px;
+        margin:5px auto;
+    }
+    .aui-form{
+        margin:0 10px 0 10px;
+    }
+    .jine{
+        font-size: 14px;
+        padding: 5px;
+    }
+    .danxuan{
+        display: inline-table;
+        width: 8%;
+    }
+    .jiajian{
+        float: right;
+        /*margin-top: -15px;*/
+        margin-right: -20px;
+    }
+    li.aui-list-view-cell.aui-img.aui-counter-list{
+        padding: 0px;
+    }
+    </style>
+</head>
+<body>
+<div class="aui-card" >
+    <img  id="img" alt="tupian">
+</div>
+<h1 id="title"></h1>
+<h1 id="isbn"></h1>
+<div id="price"></div> 
+<div class="aui-form">
+    <div class="aui-input-row">
+        <label class="aui-input-addon">众筹理由：</label>
+        <input type="text" class="aui-input" id="liyou" placeholder="一句话推荐(不多于30字)"/>
+    </div>
+    <div class="aui-input-row">
+        <span class="aui-input-addon">众筹天数：</span>
+        <input type="number" class="aui-input" id="tianshu" placeholder="10~60天" min="10" max="60"/>
+    </div>
+        <div class="aui-input-row">
+        <span class="jine">贡献金额：</span>
+            <div class="aui-pull-left">
+                <input class="aui-radio" type="radio" name="radiodemo1" value="1"><div class="aui-radio-name">1元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="5"><div class="aui-radio-name">5元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="10" checked="checked"><div class="aui-radio-name">10元</div>
+                <input class="aui-radio" type="radio" name="radiodemo1" value="1">
+                    <div class="aui-radio-name">
+                    
+                        <div class="jiajian">
+                            <div class="aui-counter aui-pull-right jiajian">
+                                <input id="diy" class="aui-counter-input" type="number" value="1">
+                            </div>   
+                        </div>                    
+                    </div>
+            </div>
+        </div>
+    <div class="aui-btn-row">
+        <div class="aui-btn aui-btn-block aui-btn-warning" onclick="startzhongchou()" tapmode="background-color:rgba(26,188,156,0.5);">发起众筹</div>
+    </div>
+</div> 
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/startzhongchou.js" ></script>
+<script type="text/javascript">
+    var isinerval,times;
+    apiready = function () {
+        dimage = api.pageParam.image;
+        dtitle = api.pageParam.title;
+        price0 = api.pageParam.price;
+        var b = "\\d+(\\.\\d+)?";
+        var q = price0.match(b);
+        if(q!=null){
+        dprice = q[0]; 
+        }else{
+         dprice = 0;           
+        }
+        disbn = api.pageParam.isbn;
+        var elimg = $api.dom('#img');
+        var eltitle = $api.dom('#title');
+        var elprice = $api.dom('#price');
+        var elisbn = $api.dom('#isbn');
+        $api.attr(elimg,'src',dimage);
+        $api.html(eltitle,dtitle);
+        $api.html(elprice,"筹资金额:"+dprice);
+        $api.html(elisbn,"isbn:"+disbn);
+        api.parseTapmode();
+    }
+// function start(obj){
+        //测试
+        //测试  
+        //   api.openWin({
+        // name: 'zhongchou_win',
+        // url: 'zhongchou_win.html'
+        // });
+        //   api.closeWin();
+// }    
+</script>
+</html>

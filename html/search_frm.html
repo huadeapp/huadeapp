@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <script type="text/javascript" src="../pace/pace.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="../pace/themes/pace-theme-bounce.css">
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <script type="text/javascript" src="../script/doT.js"></script>
+    <script type="text/javascript">
+    // function hide(){
+    //     	// $api.remove($api.dom('.aui-loading'));
+    //     	var objLoding = document.getElementsByClassName('aui-loading');
+    //     	// objLoding.style.display = 'none';
+    //     	document.body.removeChild(objLoding);
+    // 		}
+    // window.onload =hide();
+    </script>
+    <style type="text/css">
+        .hidden{display: none;}
+        .yincang{display: none;}
+/*        #isbn{
+            display: none;
+        }*/
+        .aui-content-padded{
+            margin-top: 10px;
+        }
+        #fenshu{
+            color:#f1c40f;
+        }
+        .pingfen{
+            margin-left: -8px;
+        }
+        .aui-label-warning {
+            background-color: #f1c40f;
+            color: white;
+            float: right;
+            border-radius: 5px;
+            z-index: 10;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="aui-content-padded">
+    <div class="aui-tab">
+        <ul class="aui-tab-nav aui-tab-border" id="demo2">
+            <li id="one" class="active" onclick="getValue1()" tapmode="background-color:rgba(26,188,156,0.5);">图书馆</li>
+            <li id="two" onclick="getValue2()" tapmode="background-color:rgba(26,188,156,0.5);">豆瓣网</li>
+        </ul>
+    </div>
+</div>
+	<!-- 图书馆模板引擎 -->                               
+<div class="aui-content-padded aui-card" id="div1">
+<ul class="aui-list-view" id="showInfo_1">
+<script type="text/template" charset="utf-8" id='template_1'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+
+<li class="aui-list-view-cell aui-img liceshi" tapmode="background-color:rgba(26,188,156,0.5);" onclick="ceshi(this)" >
+<img class="aui-img-object aui-pull-left imageUrl"  id="{{="img"+i}}">
+<div class="aui-img-body">
+{{=it[i][0]}}
+<p class='aui-ellipsis-2' class="ceshi" id="{{="p"+i}}">外借次数：{{=it[i][1]}}</p>
+<p class='aui-ellipsis-2'>{{=it[i][2]}}/{{=it[i][3]}}/{{=it[i][4]}}</p>
+<p class='aui-ellipsis-2' id="isbn" >{{=it[i][5]}}</p>
+</div>
+</li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+
+</script>
+        </ul>
+    </div>
+    <!-- 图书馆模板引擎 -->
+    <!-- 豆瓣网模板引擎 -->
+<div class="aui-content-padded aui-card" id="div2">
+<ul class="aui-list-view" id="showInfo_2">
+<script type="text/template" charset="utf-8" id='template_2'>
+
+{{if( it && it.length>0 ){ }}
+
+{{for(var i=0; i<it.length; i++){ }}
+
+<li class="aui-list-view-cell aui-img liceshi" tapmode="background-color:rgba(26,188,156,0.5);" onclick="ceshi2(this)" >
+<img class="aui-img-object aui-pull-left imageUrl"  src="{{=it[i].image}}">
+<div class="aui-img-body">
+{{=it[i].title}}
+<p class="aui-label-warning" onclick="startzhongchou(this)" id="chou">众筹</p>
+<p class='aui-ellipsis-2 pingfen' class="ceshi"><img id="{{="xing"+i}}"></img><a id="fenshu"> {{=it[i].rating.average}}</a>({{=it[i].rating.numRaters}}人评价)</p>
+<p class='aui-ellipsis-2'>{{=it[i].author}}/{{=it[i].publisher}}/{{=it[i].pubdate}}/(￥{{=it[i].price}})</p>
+<p class='yincang'>{{=it[i].images.large}}</p>
+<p class='yincang'>{{=it[i].title}}</p>
+<p class='yincang'>{{=it[i].price}}</p>
+<p class='aui-ellipsis-2' id="isbn" >{{=it[i].isbn13}}</p>
+</div>
+</li>
+
+
+{{ } }}
+
+{{ }else{ }}
+
+<li>没搜索到书</li>
+
+{{ } }}
+	<!-- 豆瓣网模板引擎 -->
+</body>
+</script>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    //         function stopEventBubble(event){
+    //     var e=event || window.event;
+
+    //     if (e && e.stopPropagation){
+    //         e.stopPropagation();    
+    //     }
+    //     else{
+    //         e.cancelBubble=true;
+    //     }
+    // } 
+     var ip,pageParam;
+	apiready = function(){ 
+     ip = $api.getStorage('ip');
+     pageParam = api.pageParam.value;
+     getValue1();
+};
+// http://192.168.43.44
+		// url: 'http://172.17.123.4:3000/search1?q='+pageParam,
+ function getValue1(){
+    var one=$api.byId('one');
+    var two=$api.byId('two');
+    var div1=$api.byId('div1');
+    var div2=$api.byId('div2');
+    $api.addCls(one, 'active');
+    $api.removeCls(two, 'active');
+    $api.removeCls(div1, 'hidden');
+    $api.addCls(div2, 'hidden');
+	api.ajax({
+		url: 'http://'+ip+':3000/search1?q='+pageParam,
+		method: 'get',
+        cache: true,
+		timeout: 5,
+		dataType: 'json',
+		returnAll: false
+		
+	   },function(ret,err){
+		if(ret){
+            try{
+            var template=document.getElementById('template_1').innerHTML;
+            document.getElementById('showInfo_1').innerHTML=doT.template( template )( ret );
+            function douban00(i){
+                var isbn = ret[i][5];
+                        api.ajax({
+                        url: 'https://api.douban.com/v2/book/isbn/:'+isbn,
+                        method: 'get',
+                        cache: true,
+                        timeout: 5,
+                        dataType: 'json',
+                        returnAll:false,
+                        },function(ret,err){
+                            if (ret) {
+                            var dom = $api.byId("img"+i);
+                                $api.attr(dom,"src",ret.image); 
+                            // var src = $api.attr(dom,"id");
+                            }else{
+                            }
+                        });
+             
+            }
+             for(var j=0;j<ret.length;j++){
+             douban00(j);   
+              }                
+            }catch(e){
+                // console.log(e);
+            }
+        }else{
+			// api.alert({
+   //          msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+   //      			});
+                        api.toast({
+                msg:'噢！抱歉，服务器开小差去了~~~',
+                duration:5000
+                });
+		}
+	});
+    api.parseTapmode();
+}
+function getValue2(){
+    var one=$api.byId('one');
+    var two=$api.byId('two');
+    var div1=$api.byId('div1');
+    var div2=$api.byId('div2');
+    $api.addCls(two, 'active');
+    $api.removeCls(one, 'active');
+    $api.removeCls(div2, 'hidden');
+    $api.addCls(div1, 'hidden');
+    api.ajax({
+        url:'https://api.douban.com/v2/book/search?q='+pageParam+'&count=15',
+        method:'get',
+        timeout:5,
+        dataType:'json',
+        cache:true,
+        returnAll:false
+    },function(ret,err){
+        if(ret){
+            try{
+            // var ceshi = ret.books[0].price;
+            var ceshi = ret.books;
+           // api.toast({
+           //      msg:'价格'+ceshi,
+           //      duration:5000
+           //      });
+            var template=document.getElementById('template_2').innerHTML;
+            document.getElementById('showInfo_2').innerHTML=doT.template( template )( ceshi );
+            function fenshu(rating,i){
+            var rat = Math.round(rating);
+                // api.toast({
+                //     msg:rat
+                // });
+            if(rat<2){
+                var url = "../image/images/fenshu_01.png";
+                }else{
+                    var url = "../image/images/fenshu_0"+rat+".gif";      
+                }
+            var dom=$api.byId('xing'+i);
+            $api.attr(dom,"src",url);             
+            }
+                // api.toast({
+                //     msg:ceshi.length
+                // });
+            for(var k=0;k<ceshi.length;k++){
+            fenshu(ceshi[k].rating.average,k);   
+            }            
+
+            }catch(e){
+            // console.log(e);
+        }
+
+            }else{
+            
+            }
+
+    });
+    api.parseTapmode();
+}
+    // api.parseTapmode();
+  // };
+
+
+    // function searchbook(obj){
+    //     // var value1 = $api.byId('search1').value;
+    //     var isbn0 = $api.dom(obj,'#isbn');
+    //     var isbn = $api.html(isbn0);
+    //     // var isbn0 = $api.dom(obj,'#isbn').html();
+    //     api.openWin({
+    //     name: 'searchbook_win',
+    //     url: 'searchbook_win.html',
+    //     pageParam:{value: isbn}
+    //     });
+    // } 
+
+    function ceshi(obj){
+        var dom0 = $api.last(obj);
+        var dom00 = $api.last(dom0);
+        html = $api.html(dom00);
+        api.openWin({
+        name: 'searchbook_win',
+        url: 'searchbook_win.html',
+        pageParam:{value: html}
+        });
+    }
+    function ceshi2(obj){
+        var dom0 = $api.last(obj);
+        var dom00 = $api.last(dom0);
+        disbn = $api.html(dom00);
+        var domprice = $api.eq(dom0,6);
+        var domtitle = $api.eq(dom0,5);
+        var domimage = $api.eq(dom0,4);
+        var dprice = $api.html(domprice);
+        var dtitle = $api.html(domtitle);
+        var dimage = $api.html(domimage);
+        api.openWin({
+        name: 'searchbook2_win',
+        url: 'searchbook2_win.html',
+        pageParam:{value:disbn,
+                    image:dimage,
+                    title:dtitle,
+                    price:dprice
+                    }
+        });
+    }
+    function startzhongchou(obj){
+          stopEventBubble(event);         
+        // var dom000 = $api.last(obj);
+        // var dom000 = $api.prev(obj);
+        // var dom00 = $api.prev(dom000);
+        // var dom0 = $api.prev(dom00);
+        // var dom00 = $api.last(dom0);
+        // html = $api.html(dom00);        
+        // var dom0 = dom00.parentNode;
+        var dom0 =obj.parentNode;
+         // html = $api.eq(dom0,7);
+        var domisbn = $api.eq(dom0,7);
+        var domprice = $api.eq(dom0,6);
+        var domtitle = $api.eq(dom0,5);
+        var domimage = $api.eq(dom0,4);
+        var dprice = $api.html(domprice);
+        var dtitle = $api.html(domtitle);
+        var dimage = $api.html(domimage); 
+        var disbn = $api.html(domisbn); 
+        api.openWin({
+        pageParam:{ isbn:disbn,
+                    image:dimage,
+                    title:dtitle,
+                    price:dprice
+                    },
+        name: 'startzhongchou_win',
+        url: 'startzhongchou_win.html',
+        }); 
+                   // api.toast({
+           //      msg:'跳到众筹',
+           //      duration:5000
+           //      });
+
+          // stopEventBubble(event);         
+    }
+    function stopEventBubble(event){
+        var e=event || window.event;
+
+        if (e && e.stopPropagation){
+            e.stopPropagation();    
+        }
+        else{
+            e.cancelBubble=true;
+        }
+    }   
+
+    // function douban(obj){
+    //     var dom0 = $api.last(obj);
+    //     var dom00 = $api.last(dom0);
+    //     isbn = $api.html(dom00);
+    //     var img = $api.first(obj);
+    //     api.ajax({
+    //     url: 'https://api.douban.com/v2/book/isbn/:'+isbn,
+    //     method: 'get',
+    //     timeout: 3,
+    //     dataType: 'json',
+    //     returnAll:false,
+
+    //     },function(ret,err){
+    //         if (ret) {
+    //         var urlJson0 = "../image/duzhe2.jpg";
+    //         var urlJson = JSON.stringify(ret.image);
+    //         var url = ret.image;
+    //         $api.attr(img,'src',url);
+    //                             //测试：
+    //                 api.toast({
+    //                 msg:'获取的isbn值为：'+isbn+'url的值为'+url,
+    //                 duration:5000
+    //                 });
+    //                 //测试;
+    //             // api.alert({msg: urlJson});
+    //         }
+    //     });
+    // }
+
+
+</script>
+
+
+</html>
